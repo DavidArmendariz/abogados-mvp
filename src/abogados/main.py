@@ -44,7 +44,7 @@ def load_and_process_document():
     texts = text_splitter.split_text(content)
     
     # Create embeddings and vector store
-    embeddings = OpenAIEmbeddings(model="text-embedding-003-small")
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
     vectorstore = FAISS.from_texts(texts, embeddings)
     
     return vectorstore
