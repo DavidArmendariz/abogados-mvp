@@ -118,7 +118,7 @@ if api_key:
             if vectorstore:
                 st.session_state.vectorstore = vectorstore
                 st.session_state.qa_chain = setup_qa_chain(vectorstore, abogados)
-                st.success("Documento procesado exitosamente!")
+                st.success("Ya puedes empezar a usar el asistente legal.")
             else:
                 st.error("Failed to process document. Please try again.")
     
