@@ -10,6 +10,9 @@ from docx import Document
 import pypdf
 import io
 import csv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Set page configuration
 st.set_page_config(page_title="D'Consulting", page_icon="⚖️")
