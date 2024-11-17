@@ -108,7 +108,6 @@ def setup_qa_chain(vectorstore, abogados):
             for abogado in abogados:
                 if abogado["especialidad"].lower() in query.lower():
                     response += f"\n\nRecomendación: {abogado['nombre']} es especialista en {abogado['especialidad']}."
-                    return {"result": response, "source_documents": result["source_documents"]}
         
         return {"result": response, "source_documents": result["source_documents"]}
     
