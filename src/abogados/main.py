@@ -29,23 +29,12 @@ def read_pdf(file):
         text += page.extract_text() + "\n"
     return text
 
-def read_docx(file):
-    """Extract text from DOCX file"""
-    doc = Document(file)
-    text = ""
-    for paragraph in doc.paragraphs:
-        text += paragraph.text + "\n"
-    return text
-
-def read_text_file(file):
-    """Read text from txt file"""
-    return file.read().decode("utf-8")
-
 def load_and_process_document():
     """Load and process the document for RAG"""
     
     # Read content based on file type
     content = read_pdf("src/abogados/Constitución política.pdf")
+    content += read_pdf("src/abogados/codigo_sustantivo_trabajo.pdf")
     
     # Split the text into chunks
     text_splitter = RecursiveCharacterTextSplitter(
