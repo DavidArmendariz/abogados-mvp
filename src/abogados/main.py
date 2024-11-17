@@ -44,7 +44,7 @@ def load_and_process_document():
     texts = text_splitter.split_text(content)
     
     # Create embeddings and vector store
-    embeddings = OpenAIEmbeddings()
+    embeddings = OpenAIEmbeddings(model="text-embedding-003-small")
     vectorstore = FAISS.from_texts(texts, embeddings)
     
     return vectorstore
@@ -67,7 +67,7 @@ def setup_qa_chain(vectorstore, abogados):
     
     # Create QA chain
     qa_chain = RetrievalQA.from_chain_type(
-        llm=OpenAI(temperature=0),
+        llm=OpenAI(temperature=0, model="gpt-4o-mini"),
         chain_type="stuff",
         retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
         chain_type_kwargs={"prompt": QA_CHAIN_PROMPT},
