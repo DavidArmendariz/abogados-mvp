@@ -1,14 +1,12 @@
 import streamlit as st
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.llms import OpenAI
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 import os
-from docx import Document
 import pypdf
-import io
 import csv
 from dotenv import load_dotenv
 
