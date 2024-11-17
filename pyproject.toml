@@ -1,0 +1,15 @@
+[project]
+name = "abogados"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "David Armendariz", email = "david.adrian.a.p@gmail.com"},
+]
+dependencies = ["streamlit>=1.40.1", "langchain>=0.3.7", "openai>=1.54.4", "faiss-cpu>=1.9.0", "langchain-community>=0.3.7", "pypdf>=5.1.0", "python-docx>=1.1.2", "tiktoken>=0.8.0", "python-dotenv>=1.0.1"]
+requires-python = "==3.12.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
