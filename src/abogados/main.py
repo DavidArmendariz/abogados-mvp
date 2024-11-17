@@ -2,7 +2,7 @@ import streamlit as st
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.llms import OpenAI
+from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 import os
@@ -67,7 +67,7 @@ def setup_qa_chain(vectorstore, abogados):
     
     # Create QA chain
     qa_chain = RetrievalQA.from_chain_type(
-        llm=OpenAI(temperature=0, model="gpt-4o-mini"),
+        llm=ChatOpenAI(temperature=0, model="gpt-4o-mini"),
         chain_type="stuff",
         retriever=vectorstore.as_retriever(search_kwargs={"k": 3}),
         chain_type_kwargs={"prompt": QA_CHAIN_PROMPT},
@@ -83,7 +83,7 @@ def setup_qa_chain(vectorstore, abogados):
             for abogado in abogados:
                 if abogado["especialidad"].lower() in query.lower():
                     response = f"\n\nRecomendación: {abogado['nombre']} es especialista en {abogado['especialidad']}."
-        
+                    return {"result": response, "source_documents": []}
         return {"result": response, "source_documents": result["source_documents"]}
     
     return qa_chain_with_recommendation
