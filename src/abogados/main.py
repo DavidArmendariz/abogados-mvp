@@ -31,9 +31,9 @@ def load_and_process_document():
     """Load and process the document for RAG"""
     
     # Read content based on file type
-    # content = read_pdf("src/abogados/Constitución política.pdf")
+    content = read_pdf("src/abogados/Constitución política.pdf")
     # content = read_pdf("src/abogados/codigo_sustantivo_trabajo.pdf")
-    content = read_pdf("src/abogados/codigo_civil_colombia.pdf")
+    # content = read_pdf("src/abogados/codigo_civil_colombia.pdf")
     
     # Split the text into chunks
     text_splitter = RecursiveCharacterTextSplitter(
