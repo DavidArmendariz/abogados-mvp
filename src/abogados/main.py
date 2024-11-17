@@ -41,24 +41,11 @@ def read_text_file(file):
     """Read text from txt file"""
     return file.read().decode("utf-8")
 
-def load_and_process_document(file):
+def load_and_process_document():
     """Load and process the document for RAG"""
-    # Get file extension
-    file_extension = file.name.split(".")[-1].lower()
     
     # Read content based on file type
-    try:
-        if file_extension == "pdf":
-            content = read_pdf(file)
-        elif file_extension in ["docx", "doc"]:
-            content = read_docx(io.BytesIO(file.read()))
-        elif file_extension == "txt":
-            content = read_text_file(file)
-        else:
-            raise ValueError(f"Unsupported file type: {file_extension}")
-    except Exception as e:
-        st.error(f"Error processing file: {str(e)}")
-        return None
+    content = read_pdf("src/abogados/Constitución política.pdf")
     
     # Split the text into chunks
     text_splitter = RecursiveCharacterTextSplitter(
@@ -107,7 +94,7 @@ def setup_qa_chain(vectorstore, abogados):
         if "recomienda" in query.lower():
             for abogado in abogados:
                 if abogado["especialidad"].lower() in query.lower():
-                    response += f"\n\nRecomendación: {abogado['nombre']} es especialista en {abogado['especialidad']}."
+                    response = f"\n\nRecomendación: {abogado['nombre']} es especialista en {abogado['especialidad']}."
         
         return {"result": response, "source_documents": result["source_documents"]}
     
@@ -128,23 +115,18 @@ abogados = load_abogados('src/abogados/abogados.csv')
 with st.sidebar:
     st.title("⚖️ Documentos legales")
     api_key = os.getenv("OPENAI_API_KEY")
-    uploaded_file = st.file_uploader(
-        "Sube tu documento legal:",
-        type=["txt", "pdf", "docx", "doc"],
-        help="Formatos soportados: PDF, Word documents (DOC/DOCX), y archivos de texto"
-    )
 
 # Main chat interface
 st.title("🤖 D'Consulting")
 
-if api_key and uploaded_file:
+if api_key:
     # Set OpenAI API key
     os.environ["OPENAI_API_KEY"] = api_key
     
     # Process document and setup QA chain
     if "vectorstore" not in st.session_state:
-        with st.spinner(f"Procesando {uploaded_file.name}..."):
-            vectorstore = load_and_process_document(uploaded_file)
+        with st.spinner(f"Procesando..."):
+            vectorstore = load_and_process_document()
             if vectorstore:
                 st.session_state.vectorstore = vectorstore
                 st.session_state.qa_chain = setup_qa_chain(vectorstore, abogados)
@@ -184,12 +166,3 @@ if api_key and uploaded_file:
 
 else:
     st.info("Sube un documento para empezar.")
-
-# Add footer with supported formats
-st.sidebar.markdown("---")
-st.sidebar.markdown("""
-### Formatos soportados
-- PDF (*.pdf)
-- Word Documents (*.docx, *.doc)
-- Text Files (*.txt)
-""")
