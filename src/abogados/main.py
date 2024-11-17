@@ -102,7 +102,7 @@ abogados = load_abogados('src/abogados/abogados.csv')
 
 # Sidebar for API key and file upload
 with st.sidebar:
-    st.title("⚖️ Documentos legales")
+    st.title("⚖️ Expertos Legales")
     api_key = os.getenv("OPENAI_API_KEY")
 
 # Main chat interface
